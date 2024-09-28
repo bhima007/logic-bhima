@@ -52,10 +52,29 @@ const arr = [
   {bankCode: 'SP-8765', balance_InOut: 900000, transactionType: 'Dana Keluar'}
 ];
 
+function groupByBankCode(arr) {
+  const result = {};
 
-function groupByBankCode() {
-  // Write your code here
+  arr.forEach(transaction => {
+    const { bankCode, balance_InOut, transactionType } = transaction;
+
+    if (!result[bankCode]) {
+      result[bankCode] = {
+        totalDanaMasuk: 0,
+        totalDanaKeluar: 0
+      };
+    }
+
+    if (transactionType === 'Dana Masuk') {
+      result[bankCode].totalDanaMasuk += balance_InOut;
+    } else if (transactionType === 'Dana Keluar') {
+      result[bankCode].totalDanaKeluar += balance_InOut;
+    }
+  });
+
+  return result;
 }
 
-
 module.exports = groupByBankCode;
+
+console.log(groupByBankCode(arr));
